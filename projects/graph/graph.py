@@ -3,46 +3,121 @@ Simple graph implementation
 """
 from util import Stack, Queue  # These may come in handy
 
+
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
+
     def __init__(self):
         self.vertices = {}
+
     def add_vertex(self, vertex):
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        self.vertices[vertex] = set()
+
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+        else:
+            raise IndexError("cant create edge, vertex does not exist")
+
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # create a queue
+        # add first node to stack
+
+        que = Queue()
+        visited = set()
+        que.enqueue(starting_vertex)
+        # while: queue not empty
+        # pop node out of queue
+        # if not visited
+        # 	mark as visited
+        # 	get adjacent edges and add to list
+        # go to top of loop
+        while que.size() > 0:
+            vertex = que.dequeue()
+            if vertex not in visited:
+                visited.add(vertex)
+                print(vertex)
+                for next_vert in self.vertices[vertex]:
+                    que.enqueue(next_vert)
+
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
-    def dft_recursive(self, starting_vertex):
+        stack = Stack()
+        visited = set()
+        stack.push(starting_vertex)
+        # while: stackue not empty
+        # pop node out of stackue
+        # if not visited
+        # 	mark as visited
+        # 	get adjacent edges and add to list
+        # go to top of loop
+        while stack.size() > 0:
+            vertex = stack.pop()
+            if vertex not in visited:
+                visited.add(vertex)
+                print(vertex)
+                for next_vert in self.vertices[vertex]:
+                    stack.push(next_vert)
+
+    def dft_recursive(self, starting_vertex, visited=set()):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         This should be done using recursion.
         """
-        pass  # TODO
+        # stack = Stack()
+        # # visited = set()
+        # stack.push(starting_vertex)
+        # while: stackue not empty
+        # pop node out of stackue
+        # if not visited
+        # 	mark as visited
+        # 	get adjacent edges and add to list
+        # go to top of loop
+        vertex = starting_vertex
+        if vertex not in visited:
+            visited.add(vertex)
+            print(vertex)
+            for next_vert in self.vertices[vertex]:
+                self.dft_recursive(next_vert, visited)
+
     def bfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing the shortest path from
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        que = Queue()
+        visited = set()
+        que.enqueue(starting_vertex)
+        # while: queue not empty
+        # pop node out of queue
+        # if not visited
+        # 	mark as visited
+        # 	get adjacent edges and add to list
+        # go to top of loop
+        while que.size() > 0:
+            vertex = que.dequeue()
+            if vertex not in visited:
+                visited.add(vertex)
+                if vertex == destination_vertex:
+                    return
+                for next_vert in self.vertices[vertex]:
+                    que.enqueue(next_vert)
+
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
@@ -50,9 +125,6 @@ class Graph:
         depth-first order.
         """
         pass  # TODO
-
-
-
 
 
 if __name__ == '__main__':
@@ -89,6 +161,7 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
+    print('dft')
     graph.dft(1)
 
     '''
@@ -105,7 +178,9 @@ if __name__ == '__main__':
         1, 2, 4, 3, 6, 5, 7
         1, 2, 4, 3, 7, 6, 5
         1, 2, 4, 3, 7, 5, 6
+        
     '''
+    print('bft')
     graph.bft(1)
 
     '''
@@ -115,6 +190,7 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
+    print('dft_recursive')
     graph.dft_recursive(1)
 
     '''
