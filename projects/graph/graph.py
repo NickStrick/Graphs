@@ -78,15 +78,6 @@ class Graph:
         beginning from starting_vertex.
         This should be done using recursion.
         """
-        # stack = Stack()
-        # # visited = set()
-        # stack.push(starting_vertex)
-        # while: stackue not empty
-        # pop node out of stackue
-        # if not visited
-        # 	mark as visited
-        # 	get adjacent edges and add to list
-        # go to top of loop
         vertex = starting_vertex
         if vertex not in visited:
             visited.add(vertex)
@@ -109,22 +100,38 @@ class Graph:
         # 	mark as visited
         # 	get adjacent edges and add to list
         # go to top of loop
+        curr_path = []
+        last_path = []
         while que.size() > 0:
             vertex = que.dequeue()
+            # curr_path = last_path[0:len(last_path)]
+            # curr_path.append(vertex)
             if vertex not in visited:
                 visited.add(vertex)
                 if vertex == destination_vertex:
-                    return
+                    # print(curr_path)
+                    return True
+
                 for next_vert in self.vertices[vertex]:
                     que.enqueue(next_vert)
+        return False
 
-    def dfs(self, starting_vertex, destination_vertex):
+    def dfs(self, starting_vertex, destination_vertex, visited=set()):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        vertex = starting_vertex
+        if vertex not in visited:
+            visited.add(vertex)
+            # print(vertex)
+            if vertex == destination_vertex:
+                return True
+            else:
+                for next_vert in self.vertices[vertex]:
+                    self.dfs(next_vert, destination_vertex, visited)
+                return False
 
 
 if __name__ == '__main__':
