@@ -1,25 +1,17 @@
 from graph import Graph
 from util import Stack
-test_ancestors = [(1, 3), (2, 3), (3, 6), (5, 6), (5, 7),
-                  (4, 5), (4, 8), (8, 9), (11, 8), (10, 1)]
 
 
 def earliest_ancestor(ancestors, starting_node):
-    '''
 
-    '''
     ancestor_graph = Graph()
-    print(ancestors)
+
     for i in ancestors:
         ancestor_graph.add_vertex(i[0])
         ancestor_graph.add_vertex(i[1])
-        print(i[0])
     for i in ancestors:
-        # ancestor_graph.add_edge(i[0], i[1])
         ancestor_graph.add_edge(i[1], i[0])
     print(ancestor_graph.vertices)
-
-    # def dfs(graph, starting_vertex, destination_vertex):
 
     if ancestor_graph.vertices[starting_node] == set():
         return -1
@@ -45,4 +37,6 @@ def earliest_ancestor(ancestors, starting_node):
     return farthest_path[-1]
 
 
-print(earliest_ancestor(test_ancestors, 8))
+test_ancestors = [(1, 3), (2, 3), (3, 6), (5, 6), (5, 7),
+                  (4, 5), (4, 8), (8, 9), (11, 8), (10, 1)]
+earliest_ancestor(test_ancestors, 8)
