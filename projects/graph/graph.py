@@ -72,6 +72,7 @@ class Graph:
                 for next_vert in self.vertices[vertex]:
                     stack.push(next_vert)
 
+    # default argument in a function is only evaluated during defenition, this set works once but not if you call it again
     def dft_recursive(self, starting_vertex, visited=set()):
         """
         Print each vertex in depth-first order
