@@ -77,7 +77,8 @@ class SocialGraph:
         random.shuffle(potentialFriendships)
         first = True
         keys = []
-        for friendship in potentialFriendships[:20]:
+        for i in range(numUsers * avgFriendships // 2):
+            friendship = potentialFriendships[i]
             self.addFriendship(friendship[0], friendship[1])
 
     def getAllSocialPaths(self, userID):
