@@ -78,12 +78,11 @@ class Graph:
         beginning from starting_vertex.
         This should be done using recursion.
         """
-        vertex = starting_vertex
-        if vertex not in visited:
-            visited.add(vertex)
-            print(vertex)
-            for next_vert in self.vertices[vertex]:
-                self.dft_recursive(next_vert, visited)
+        print(starting_vertex)
+        visited.add(starting_vertex)
+        for child_vertex in self.vertices[starting_vertex]:
+            if child_vertex not in visited:
+                self.dft_recursive(child_vertex, visited)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -93,45 +92,41 @@ class Graph:
         """
         que = Queue()
         visited = set()
-        que.enqueue(starting_vertex)
-        # while: queue not empty
-        # pop node out of queue
-        # if not visited
-        # 	mark as visited
-        # 	get adjacent edges and add to list
-        # go to top of loop
-        curr_path = []
-        last_path = []
+        que.enqueue([starting_vertex])
+
         while que.size() > 0:
-            vertex = que.dequeue()
-            # curr_path = last_path[0:len(last_path)]
-            # curr_path.append(vertex)
+            path = que.dequeue()
+            vertex = path[-1]
             if vertex not in visited:
-                visited.add(vertex)
+                # Here is the point to do whatever we're trying to accomplish
                 if vertex == destination_vertex:
-                    # print(curr_path)
-                    return True
-
+                    return path
+                visited.add(vertex)
                 for next_vert in self.vertices[vertex]:
-                    que.enqueue(next_vert)
-        return False
+                    new_path = list(path)
+                    new_path.append(next_vert)
+                    que.enqueue(new_path)
 
-    def dfs(self, starting_vertex, destination_vertex, visited=set()):
+    def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
-        depth-first order.
+        depth-first order.wow that did nothing
         """
-        vertex = starting_vertex
-        if vertex not in visited:
-            visited.add(vertex)
-            # print(vertex)
-            if vertex == destination_vertex:
-                return True
-            else:
+        stack = Stack()
+        visited = set()
+        stack.push([starting_vertex])
+        while stack.size() > 0:
+            path = stack.pop()
+            vertex = path[-1]
+            if vertex not in visited:
+                if vertex == destination_vertex:
+                    return path
+                visited.add(vertex)
                 for next_vert in self.vertices[vertex]:
-                    self.dfs(next_vert, destination_vertex, visited)
-                return False
+                    new_path = list(path)
+                    new_path.append(next_vert)
+                    stack.push(new_path)
 
 
 if __name__ == '__main__':
