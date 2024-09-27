@@ -68,17 +68,17 @@ class SocialGraph:
 
         # Add users
         for i in range(numUsers):
-            self.addUser(f'User {i+1}')
+            self.addUser(f'User {i}')
         # Create friendships
-        potentialFriendships = []
+        possible_friendships = []
         for userID in self.users:
             for friendID in range(userID + 1, self.lastID + 1):
-                potentialFriendships.append((userID, friendID))
-        random.shuffle(potentialFriendships)
-        first = True
-        keys = []
+                possible_friendships.append((userID, friendID))
+
+        random.shuffle(possible_friendships)
+
         for i in range(numUsers * avgFriendships // 2):
-            friendship = potentialFriendships[i]
+            friendship = possible_friendships[i]
             self.addFriendship(friendship[0], friendship[1])
 
     def getAllSocialPaths(self, userID):
@@ -91,13 +91,31 @@ class SocialGraph:
         The key is the friend's ID and the value is the path.
         """
         visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+        que = Queue()
+
+        que.enqueue([userID])
+
+        while que.size() > 0:
+            path = que.dequeue()
+            v = path[-1]
+
+            if v not in visited:
+                visited[v] = path
+
+                for neighbor in self.friendships[v]:
+                    path_copy = list(path)
+                    path_copy.append(neighbor)
+                    que.enqueue(path_copy)
+
         return visited
 
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populateGraph(10, 2)
+    sg.populateGraph(1000, 20)
+    print("friendships")
     print(sg.friendships)
-    # connections = sg.getAllSocialPaths(1)
-    # print(connections)
+    connections = sg.getAllSocialPaths(1)
+    print("connections")
+    print(connections)
+    print(f"Users in extended social network: {len(connections) -1}")
